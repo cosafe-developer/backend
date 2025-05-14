@@ -1,1 +1,77 @@
-GET http://localhost:3000/api/v1/data-warehouse?startDate=2023-12-01&endDate=2023-12-02&pageNumber=1
+# Crear Admin
+# POST http://localhost:3000/api/v1/admin/register
+# Content-Type: application/json
+
+# {
+#   "name": "Admin Test",
+#   "email": "admin1@test.com",
+#   "password": "admin123",
+#   "phone": "+528681252525",
+#   "avatarUrl": "http://example.com/avatar.jpg",
+#   "gender": "male"
+# }
+
+
+# Login Admin
+
+# POST http://localhost:3000/api/v1/admin/login
+# Content-Type: application/json
+
+# {
+#   "email": "admin1@test.com",
+#   "password": "admin123"
+# }
+
+
+# Crear empresa
+# POST http://localhost:3000/api/v1/empresa/register
+# Content-Type: application/json
+# Authorization: Bearer 
+
+# {
+#   "logoUrl": "https://example.com/logo.png",
+#   "tradeName": "Comercial Matamoros SA DE CV",
+#   "rfc": "TEV010101AB1",
+#   "email": "empresa@matamoros.com",
+#   "phone": "+528681252536",
+#   "password": "empresa123"
+# }
+
+
+# Login Empresa
+
+# POST http://localhost:3000/api/v1/empresa/login
+# Content-Type: application/json
+
+# {
+#   "email": "empresa@matamoros.com",
+#   "password": "empresa123"
+# }
+
+# Crear Agente
+# POST http://localhost:3000/api/v1/agente/register
+# Content-Type: application/json
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MWU0NTM3MDYwNjYyZTVlNGRiZjU0NyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0NzE1NTcyNCwiZXhwIjoxNzQ3MjQyMTI0fQ.wfDG8h_gKTXvRXPuDLbAd4RyIq8LErCq0uisjaTvZ0M
+
+# {
+#   "firstName": "Carlos",
+#   "lastName": "Ramírez",
+#   "gender": "male",
+#   "startDate": "2023-08-01",
+#   "email": "carlos.ramirez@cosafe.com",
+#   "phone": "+525512345678",
+#   "position": "Supervisor",
+#   "password": "agente1234"
+# }
+
+
+
+# Login Agente
+
+POST http://localhost:3000/api/v1/agente/login
+Content-Type: application/json
+
+{
+  "email": "carlos.ramirez@cosafe.com",
+  "password": "agente1234"
+}
