@@ -27,10 +27,17 @@ const loginAdmin = async (req, res) => {
       { expiresIn: '1d' }
     );
 
+    // Enviar token en cookie HTTP-only
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production', // solo HTTPS en producción
+      sameSite: 'Strict', // protege contra CSRF, puedes usar 'Lax' si tienes problemas con CORS
+      maxAge: 24 * 60 * 60 * 1000 // 1 día en milisegundos
+    });
+
     console.log(`Administrador ${admin.email} inició sesión correctamente`);
     res.status(200).json({
       mensaje: 'Login exitoso',
-      token,
       admin: {
         id: admin._id,
         name: admin.name,

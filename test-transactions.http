@@ -26,7 +26,7 @@
 # Crear empresa
 # POST http://localhost:3000/api/v1/empresa/register
 # Content-Type: application/json
-# Authorization: Bearer 
+# Cookie: token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MWU0NTM3MDYwNjYyZTVlNGRiZjU0NyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0NzMyNTc3NiwiZXhwIjoxNzQ3NDEyMTc2fQ.n8YDFCN5dTZmwenA-Rj3jQOAbGNd6xZsc0CAYsiVzYY
 
 # {
 #   "logoUrl": "https://example.com/logo.png",
@@ -40,18 +40,18 @@
 
 # Login Empresa
 
-# POST http://localhost:3000/api/v1/empresa/login
-# Content-Type: application/json
+POST http://localhost:3000/api/v1/empresa/login
+Content-Type: application/json
 
-# {
-#   "email": "empresa@matamoros.com",
-#   "password": "empresa123"
-# }
+{
+  "email": "empresa@matamoros.com",
+  "password": "empresa123"
+}
 
 # Crear Agente
 # POST http://localhost:3000/api/v1/agente/register
 # Content-Type: application/json
-# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MWU0NTM3MDYwNjYyZTVlNGRiZjU0NyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0NzE1NTcyNCwiZXhwIjoxNzQ3MjQyMTI0fQ.wfDG8h_gKTXvRXPuDLbAd4RyIq8LErCq0uisjaTvZ0M
+# Cookie: 
 
 # {
 #   "firstName": "Carlos",
@@ -68,10 +68,10 @@
 
 # Login Agente
 
-POST http://localhost:3000/api/v1/agente/login
-Content-Type: application/json
+# POST http://localhost:3000/api/v1/agente/login
+# Content-Type: application/json
 
-{
-  "email": "carlos.ramirez@cosafe.com",
-  "password": "agente1234"
-}
+# {
+#   "email": "carlos.ramirez@cosafe.com",
+#   "password": "agente1234"
+# }

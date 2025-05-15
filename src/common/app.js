@@ -1,5 +1,6 @@
 const express = require('express');
 const connectDB = require('./database/mongo');
+const cookieParser = require('cookie-parser');
 const adminRoutes = require('./routes/adminRoutes');
 const empresaRoutes = require('./routes/empresaRoutes'); 
 const agenteRoutes = require('./routes/agenteRoutes'); 
@@ -11,6 +12,8 @@ const app = express();
 
 
 app.use(cors());
+app.use(cookieParser());
+
 
 // Conexión a Mongo
 connectDB();
