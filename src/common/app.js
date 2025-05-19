@@ -9,25 +9,25 @@ const agenteRoutes = require('./routes/agenteRoutes');
 
 const app = express();
 
-// 🔌 CORS 
-app.use(cors({
-  origin: process.env.CORS_ORIGIN,
-  credentials: true, // Necesario para que se envíen cookies
-}));
+// 🌐 Configuración de CORS con variable de entorno para origen permitido
+const corsOptions = {
+  origin: process.env.CORS_ORIGIN || 'http://localhost:5173', // fallback en local
+  credentials: true, // 🍪 necesario para enviar cookies
+};
 
-app.use(cors(corsOptions));
+app.use(cors(corsOptions));  // 🚦 Solo una vez, no repetir
 
 // 🍪 Middleware para parsear cookies
 app.use(cookieParser());
 
-// 📦 Middlewares para recibir JSON y datos codificados
+// 📥 Middlewares para manejar JSON y datos codificados en URL
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // 🔌 Conexión a la base de datos
 connectDB();
 
-// 🚀 Rutas
+// 🚀 Rutas principales
 app.use('/api/v1', adminRoutes);
 app.use('/api/v1', empresaRoutes);
 app.use('/api/v1', agenteRoutes);
