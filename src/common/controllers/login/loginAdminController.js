@@ -27,12 +27,12 @@ const loginAdmin = async (req, res) => {
       { expiresIn: '1d' }
     );
 
-    const isLocalhost = req.hostname === 'localhost' || req.hostname === '127.0.0.1';
+    const isProduction = process.env.NODE_ENV === 'production';
 
     res.cookie('token', token, {
       httpOnly: true,
-      secure: !isLocalhost,            // ✅ secure: false en local, true en producción
-      sameSite: isLocalhost ? 'Lax' : 'None', // ✅ 'Lax' para localhost, 'None' para cross-origin en producción
+      secure: isProduction,
+      sameSite: isProduction ? 'None' : 'Lax',
       maxAge: 24 * 60 * 60 * 1000,
     });
 
