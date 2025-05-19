@@ -27,13 +27,15 @@ const loginAdmin = async (req, res) => {
       { expiresIn: '1d' }
     );
 
-    // Enviar token en cookie HTTP-only
+    const isLocalhost = req.hostname === 'localhost' || req.hostname === '127.0.0.1';
+
     res.cookie('token', token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production', // solo HTTPS en producción
-      sameSite: 'Strict', // protege contra CSRF, puedes usar 'Lax' si tienes problemas con CORS
-      maxAge: 24 * 60 * 60 * 1000 // 1 día en milisegundos
+      secure: !isLocalhost,            // ✅ secure: false en local, true en producción
+      sameSite: isLocalhost ? 'Lax' : 'None', // ✅ 'Lax' para localhost, 'None' para cross-origin en producción
+      maxAge: 24 * 60 * 60 * 1000,
     });
+
 
     console.log(`Administrador ${admin.email} inició sesión correctamente`);
     res.status(200).json({

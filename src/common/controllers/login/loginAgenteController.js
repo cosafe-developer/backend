@@ -28,15 +28,13 @@ const loginAgenteController = async (req, res) => {
       { expiresIn: '1d' }
     );
 
-    const isLocalhost = req.hostname === 'localhost' || req.hostname === '127.0.0.1';
-
+    // Enviar token en cookie httpOnly, no en body
     res.cookie('token', token, {
       httpOnly: true,
-      secure: !isLocalhost,            // ✅ secure: false en local, true en producción
-      sameSite: isLocalhost ? 'Lax' : 'None', // ✅ 'Lax' para localhost, 'None' para cross-origin en producción
-      maxAge: 24 * 60 * 60 * 1000,
+      secure: process.env.NODE_ENV === 'production', // solo HTTPS en prod
+      sameSite: 'Strict',
+      maxAge: 24 * 60 * 60 * 1000, // 1 día
     });
-
 
     return res.status(200).json({
       mensaje: 'Login exitoso',
