@@ -15,7 +15,7 @@ const corsOptions = {
   credentials: true, // 🍪 necesario para enviar cookies
 };
 
-app.use(cors(corsOptions));  // 🚦 Solo una vez, no repetir
+app.use(cors(corsOptions));  // 🚦 
 
 // 🍪 Middleware para parsear cookies
 app.use(cookieParser());
