@@ -28,12 +28,14 @@ const loginAgenteController = async (req, res) => {
       { expiresIn: '1d' }
     );
 
-    // Enviar token en cookie httpOnly, no en body
+
+    const isProduction = process.env.NODE_ENV === 'production';
+
     res.cookie('token', token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production', // solo HTTPS en prod
-      sameSite: 'Strict',
-      maxAge: 24 * 60 * 60 * 1000, // 1 día
+      secure: isProduction,
+      sameSite: isProduction ? 'None' : 'Lax',
+      maxAge: 24 * 60 * 60 * 1000,
     });
 
     return res.status(200).json({
