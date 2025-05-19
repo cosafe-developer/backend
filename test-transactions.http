@@ -83,4 +83,4 @@
 # GET http://localhost:3000/api/v1/agente/session
 
 #Sesion activa cookies empresa
-GET http://localhost:3000/api/v1/empresa/session
+# GET http://localhost:3000/api/v1/empresa/session
