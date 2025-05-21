@@ -17,11 +17,9 @@ const loginEmpresaController = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { id: empresa._id, role: 'empresa' },
-      process.env.JWT_SECRET,
-      { expiresIn: '1h' }
+      { id: empresa._id, role: empresa.role },
+      { expiresIn: '1d' } 
     );
-
 
     const isProduction = process.env.NODE_ENV === 'production';
 
@@ -29,20 +27,19 @@ const loginEmpresaController = async (req, res) => {
       httpOnly: true,
       secure: isProduction,
       sameSite: isProduction ? 'None' : 'Lax',
-      maxAge: 24 * 60 * 60 * 1000,
+      maxAge: 24 * 60 * 60 * 1000, // 1 día
     });
 
     return res.status(200).json({
       mensaje: 'Login exitoso',
-      empresa: {
-        id: empresa._id,
-        tradeName: empresa.tradeName,
-        email: empresa.email,
-        status: empresa.status,
-        role:empresa.role
-      }
+      id: empresa._id,
+      tradeName: empresa.tradeName,
+      email: empresa.email,
+      status: empresa.status,
+      role: empresa.role
     });
   } catch (error) {
+    console.error('Error en loginEmpresaController:', error);
     return res.status(500).json({ mensaje: 'Error al realizar el login', error });
   }
 };
