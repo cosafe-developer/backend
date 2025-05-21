@@ -18,7 +18,8 @@ const loginEmpresaController = async (req, res) => {
 
     const token = jwt.sign(
       { id: empresa._id, role: empresa.role },
-      { expiresIn: '1d' } 
+      process.env.JWT_SECRET,
+      { expiresIn: '1d' }
     );
 
     const isProduction = process.env.NODE_ENV === 'production';
@@ -27,7 +28,7 @@ const loginEmpresaController = async (req, res) => {
       httpOnly: true,
       secure: isProduction,
       sameSite: isProduction ? 'None' : 'Lax',
-      maxAge: 24 * 60 * 60 * 1000, // 1 día
+      maxAge: 24 * 60 * 60 * 1000,
     });
 
     return res.status(200).json({
