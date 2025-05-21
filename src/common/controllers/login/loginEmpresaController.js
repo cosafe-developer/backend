@@ -39,6 +39,7 @@ const loginEmpresaController = async (req, res) => {
         tradeName: empresa.tradeName,
         email: empresa.email,
         status: empresa.status,
+        role:empresa.role
       }
     });
   } catch (error) {

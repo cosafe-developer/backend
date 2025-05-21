@@ -36,10 +36,7 @@ const empresaSchema = new mongoose.Schema({
 
   status: { type: String, enum: ['active', 'inactive'], default: 'active' },
 
-  role: {
-    type: String,
-    enum: ['empresa'],
-    default: 'empresa',
+  role: { type: String,enum: ['empresa'], default: 'empresa',
   },
 
   adminId: {
