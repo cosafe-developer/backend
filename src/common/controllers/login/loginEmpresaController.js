@@ -33,12 +33,15 @@ const loginEmpresaController = async (req, res) => {
 
     return res.status(200).json({
       mensaje: 'Login exitoso',
-      id: empresa._id,
-      tradeName: empresa.tradeName,
-      email: empresa.email,
-      status: empresa.status,
-      role: empresa.role
+      empresa: {
+        id: empresa._id,
+        tradeName: empresa.tradeName,
+        email: empresa.email,
+        status: empresa.status,
+        role: empresa.role
+      }
     });
+
   } catch (error) {
     console.error('Error en loginEmpresaController:', error);
     return res.status(500).json({ mensaje: 'Error al realizar el login', error });
