@@ -6,6 +6,7 @@ const cors = require('cors');
 const adminRoutes = require('./routes/adminRoutes');
 const empresaRoutes = require('./routes/empresaRoutes'); 
 const agenteRoutes = require('./routes/agenteRoutes'); 
+const uploadRoutes = require('./routes/upload');
 
 const app = express();
 
@@ -31,5 +32,6 @@ connectDB();
 app.use('/api/v1', adminRoutes);
 app.use('/api/v1', empresaRoutes);
 app.use('/api/v1', agenteRoutes);
+app.use("/api/v1", uploadRoutes);
 
 module.exports = app;
