@@ -36,6 +36,9 @@ const loginAdmin = async (req, res) => {
       maxAge: 24 * 60 * 60 * 1000,
     });
 
+    // 🐞 Verificar que la cookie se esté generando
+    console.log('Set-Cookie generado:', res.getHeader('Set-Cookie'));
+
 
     console.log(`Administrador ${admin.email} inició sesión correctamente`);
     res.status(200).json({
