@@ -4,7 +4,9 @@ const Empresa = require('../../models/empresaModel');
 const createEmpresa = async (req, res) => {
   try {
     const { logoUrl, tradeName, rfc, email, phone, password } = req.body;
+
     const adminId = req.user?.id; // Requiere que auth middleware inyecte req.user
+    console.log("🧪 req.user recibido en /empresa/register:", req.user);
 
     if (!adminId) {
       return res.status(401).json({ mensaje: 'No autorizado: falta ID de administrador' });
