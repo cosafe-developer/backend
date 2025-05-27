@@ -3,17 +3,14 @@ const Empresa = require('../../models/empresaModel');
 const createEmpresa = async (req, res) => {
   try {
     const { logoUrl, tradeName, rfc, email, phone, password } = req.body;
-
     const adminId = req.user?.id;
+
     console.log("🔐 req.user:", req.user);
+    console.log("📥 Datos recibidos:", { logoUrl, tradeName, rfc, email, phone, password });
 
     if (!adminId) {
-      console.warn("⚠️ No autorizado: falta ID de administrador");
       return res.status(401).json({ mensaje: 'No autorizado: falta ID de administrador' });
     }
-
-    // Mostrar los datos recibidos
-    console.log("📥 Datos recibidos:", { logoUrl, tradeName, rfc, email, phone, password });
 
     const nuevaEmpresa = new Empresa({
       logoUrl,
@@ -23,7 +20,7 @@ const createEmpresa = async (req, res) => {
       phone,
       password,
       adminId,
-      role: 'empresa'
+      role: 'empresa',
     });
 
     const saved = await nuevaEmpresa.save();
@@ -37,13 +34,37 @@ const createEmpresa = async (req, res) => {
         tradeName: saved.tradeName,
         email: saved.email,
         status: saved.status,
-        role: saved.role 
-      }
+        role: saved.role,
+      },
     });
+
   } catch (error) {
     console.error("❌ Error al registrar empresa:", error);
-    return res.status(500).json({ mensaje: 'Error al registrar la empresa', error: error.message });
+
+    // 🧪 Error de validación de Mongoose (campos incorrectos)
+    if (error.name === "ValidationError") {
+      const errores = Object.values(error.errors).map((e) => e.message);
+      return res.status(400).json({
+        mensaje: "Datos inválidos",
+        errores,
+      });
+    }
+
+    // 🔐 Error por campos duplicados (email, rfc)
+    if (error.code === 11000) {
+      const campoDuplicado = Object.keys(error.keyPattern)[0]; // ej. 'email'
+      return res.status(400).json({
+        mensaje: `Ya existe una empresa con ese ${campoDuplicado}`,
+      });
+    }
+
+    // 🧨 Otro error interno
+    return res.status(500).json({
+      mensaje: 'Error interno al registrar la empresa',
+      error: error.message,
+    });
   }
 };
 
 module.exports = createEmpresa;
+
