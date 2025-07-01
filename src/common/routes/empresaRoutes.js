@@ -1,19 +1,29 @@
-// src/routes/empresaRoutes.js
 const express = require('express');
-const authAdmin = require('../middlewares/auth/authAdmin');
-const authEmpresa = require('../middlewares/auth/authEmpresa');
-const createEmpresa = require('../controllers/register/registerEmpresaController'); 
-const loginEmpresaController = require('../controllers/login/loginEmpresaController'); // Importa el controlador
-const getEmpresaSession = require('../controllers/empresa/empresaSessionController');
-
-
 const router = express.Router();
+const allowRoles = require('../middlewares/auth/allowRoles.js');
+const createEmpresa = require('../controllers/register/registerEmpresaController.js');
+const loginEmpresaController = require('../controllers/login/loginEmpresaController.js');
+const getEmpresaSession = require('../controllers/empresa/empresaSessionController.js');
 
-// Ruta para registrar una nueva empresa
-router.post('/empresa/register',authAdmin, createEmpresa);
-// Ruta para el login de la empresa
+const { getEmpresasByAdmin, getEmpresaById } = require('../controllers/crud/empresacrud.js');
+
+// --- Auth de empresa ---
+
+// Crear empresa → solo admin
+router.post('/empresa/register', allowRoles("admin"), createEmpresa);
+
+// Login empresa → público
 router.post('/empresa/login', loginEmpresaController);
-// Verificar sesión
-router.get('/empresa/session', authEmpresa, getEmpresaSession);
+
+// Obtener sesión empresa → solo empresas
+router.get('/empresa/session', allowRoles("empresa"), getEmpresaSession);
+
+// --- CRUD de empresas ---
+
+// Listar empresas de un admin → solo admin
+router.get('/empresas', allowRoles("admin"), getEmpresasByAdmin);
+
+// Obtener una empresa específica → solo admin
+router.get('/empresa/:id', allowRoles("admin"), getEmpresaById);
 
 module.exports = router;

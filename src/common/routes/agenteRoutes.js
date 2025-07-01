@@ -1,13 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const authAgente = require('../middlewares/auth/authAgente');
-const authAdmin = require('../middlewares/auth/authAdmin');
-const createAgente = require('../controllers/register/registerAgenteController');
-const loginAgenteController = require('../controllers/login/loginAgenteController');
-const getAgenteSession = require('../controllers/agente/agenteSesionController');
+const allowRoles = require('../middlewares/auth/allowRoles.js');
+const createAgente = require('../controllers/register/registerAgenteController.js');
+const loginAgenteController = require('../controllers/login/loginAgenteController.js');
+const getAgenteSession = require('../controllers/agente/agenteSesionController.js');
 
-router.post('/agente/register', authAdmin, createAgente);
-router.post('/agente/login',loginAgenteController);
-router.get('/agente/session', authAgente, getAgenteSession);
+// Crear agente → solo admin
+router.post('/agente/register', allowRoles("admin"), createAgente);
+
+// Login → público
+router.post('/agente/login', loginAgenteController);
+
+// Obtener sesión agente → solo agentes
+router.get('/agente/session', allowRoles("agente"), getAgenteSession);
 
 module.exports = router;
