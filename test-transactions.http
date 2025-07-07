@@ -84,3 +84,14 @@
 
 #Sesion activa cookies empresa
 # GET http://localhost:3000/api/v1/empresa/session
+
+# Obtener empresa por id admin
+# GET http://localhost:3000/api/v1/empresas?adminId=681e4537060662e5e4dbf547
+
+
+PUT http://localhost:3000/api/v1/empresa/682d476aaa10a0fc04933c87
+Content-Type: application/json
+
+{
+  "tradeName": "Cosafe Nueva SA de CV"
+}
