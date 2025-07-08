@@ -93,5 +93,11 @@ PUT http://localhost:3000/api/v1/empresa/682d476aaa10a0fc04933c87
 Content-Type: application/json
 
 {
-  "tradeName": "Cosafe Nueva SA de CV"
+  "tradeName": "Cosafe SA de CV",
+  "rfc": "TEV010101AB2",
+  "email": "empresa@matamoros.com",
+  "phone": "+528681245690",
+  "password": "admin123",
+  "logoUrl": "https://cosafeimg.nyc3.cdn.digitaloceanspaces.com/profile/1751913130910-logo.png"
 }
+

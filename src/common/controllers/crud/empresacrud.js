@@ -69,10 +69,10 @@ const getEmpresaById = async (req, res) => {
   }
 };
 
+
 // ✅ Actualizar empresa por ID
 const updateEmpresa = async (req, res) => {
   try {
-   
     const { id } = req.params;
 
     const empresa = await Empresa.findById(id);
@@ -110,38 +110,41 @@ const updateEmpresa = async (req, res) => {
     }
 
     if (email !== undefined && email !== "") {
-      console.log("Actualizando email:", email);
       empresa.email = email;
     }
 
     if (phone !== undefined && phone !== "") {
-      console.log("Actualizando phone:", phone);
       empresa.phone = phone;
     }
 
     if (rfc !== undefined && rfc !== "") {
-      console.log("Actualizando rfc:", rfc);
       empresa.rfc = rfc;
     }
 
     if (password && password !== "") {
-      console.log("Actualizando password");
-      const salt = await bcrypt.genSalt(10);
-      empresa.password = await bcrypt.hash(password, salt);
+      empresa.password = password;
     }
 
     if (logoUrl && logoUrl !== "") {
-      console.log("Actualizando logoUrl:", logoUrl);
       empresa.logoUrl = logoUrl;
     }
 
     await empresa.save();
 
+    // ✅ Verificar inmediatamente el hash
+    if (password && password !== "") {
+      const testMatch = await bcrypt.compare(password, empresa.password);
+      console.log(
+        testMatch
+          ? "✅ Nueva contraseña verificada correctamente."
+          : "❌ ERROR: La contraseña nueva NO coincide con el hash."
+      );
+    }
+
     res.json({
       mensaje: "Empresa actualizada correctamente.",
       empresa,
     });
-
   } catch (error) {
     console.error(error);
     res.status(500).json({
@@ -149,7 +152,6 @@ const updateEmpresa = async (req, res) => {
     });
   }
 };
-
 
 module.exports = {
   getEmpresasByAdmin,
