@@ -69,8 +69,9 @@ const getEmpresaById = async (req, res) => {
   }
 };
 
+const bcrypt = require("bcryptjs");
+const Empresa = require("../../models/empresaModel");
 
-// ✅ Actualizar empresa por ID
 const updateEmpresa = async (req, res) => {
   try {
     const { id } = req.params;
@@ -105,7 +106,6 @@ const updateEmpresa = async (req, res) => {
     } = req.body;
 
     if (tradeName !== undefined && tradeName !== "") {
-      console.log("Actualizando tradeName:", tradeName);
       empresa.tradeName = tradeName;
     }
 
@@ -129,26 +129,55 @@ const updateEmpresa = async (req, res) => {
       empresa.logoUrl = logoUrl;
     }
 
-    await empresa.save();
+    try {
+      await empresa.save();
 
-    // ✅ Verificar inmediatamente el hash
-    if (password && password !== "") {
-      const testMatch = await bcrypt.compare(password, empresa.password);
-      console.log(
-        testMatch
-          ? "✅ Nueva contraseña verificada correctamente."
-          : "❌ ERROR: La contraseña nueva NO coincide con el hash."
-      );
+      console.log("✅ Empresa actualizada:", empresa._id);
+
+      if (password && password !== "") {
+        const testMatch = await bcrypt.compare(password, empresa.password);
+        console.log(
+          testMatch
+            ? "✅ Nueva contraseña verificada correctamente."
+            : "❌ ERROR: La contraseña nueva NO coincide con el hash."
+        );
+      }
+
+      return res.json({
+        mensaje: "Empresa actualizada correctamente.",
+        empresa,
+      });
+    } catch (error) {
+      console.error("❌ Error al actualizar empresa:", error);
+
+      // 🧪 Error de validación de Mongoose
+      if (error.name === "ValidationError") {
+        const errores = Object.values(error.errors).map((e) => e.message);
+        return res.status(400).json({
+          mensaje: "Datos inválidos.",
+          errores,
+        });
+      }
+
+      // 🔐 Error por campos duplicados (email, rfc)
+      if (error.code === 11000) {
+        const campoDuplicado = Object.keys(error.keyPattern)[0];
+        return res.status(400).json({
+          mensaje: `Ya existe una empresa con ese ${campoDuplicado}.`,
+        });
+      }
+
+      // 🧨 Otro error interno
+      return res.status(500).json({
+        mensaje: "Error interno al actualizar la empresa.",
+        error: error.message,
+      });
     }
-
-    res.json({
-      mensaje: "Empresa actualizada correctamente.",
-      empresa,
-    });
   } catch (error) {
     console.error(error);
     res.status(500).json({
-      mensaje: "Error al actualizar la empresa.",
+      mensaje: "Error interno al procesar la solicitud.",
+      error: error.message,
     });
   }
 };
