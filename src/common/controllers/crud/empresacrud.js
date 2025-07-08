@@ -69,9 +69,6 @@ const getEmpresaById = async (req, res) => {
   }
 };
 
-const bcrypt = require("bcryptjs");
-const Empresa = require("../../models/empresaModel");
-
 const updateEmpresa = async (req, res) => {
   try {
     const { id } = req.params;
