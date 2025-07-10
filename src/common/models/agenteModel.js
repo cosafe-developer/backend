@@ -26,6 +26,8 @@ const agenteSchema = new mongoose.Schema({
   },
   position: { type: String, required: true },
   password: { type: String, required: true },
+
+  logoUrl: { type: String, required: true },
   status: { type: String, enum: ['active', 'inactive'], default: 'active' },
   role: { type: String, enum: ['agente'], default: 'agente' }, 
   adminId: {

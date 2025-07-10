@@ -2,7 +2,7 @@ const Admin = require('../../models/adminModel');
 
 const createAdmin = async (req, res) => {
   try {
-    const { name, email, password, phone, avatarUrl, gender } = req.body;
+    const { name, email, password, phone, logoUrl, gender } = req.body;
 
     const existing = await Admin.findOne({ email });
     if (existing) {
@@ -14,7 +14,7 @@ const createAdmin = async (req, res) => {
       email,
       password,
       phone,
-      avatarUrl,
+      logoUrl,
       gender
     });
 

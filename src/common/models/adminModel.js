@@ -26,7 +26,7 @@ const adminSchema = new mongoose.Schema({
     },
   },
 
-  avatarUrl: { type: String },
+  logoUrl: { type: String, required: true },
 
   gender: { type: String, enum: ['male', 'female', 'other'] },
 

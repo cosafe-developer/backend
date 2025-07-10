@@ -7,7 +7,7 @@
 #   "email": "admin1@test.com",
 #   "password": "admin123",
 #   "phone": "+528681252525",
-#   "avatarUrl": "http://example.com/avatar.jpg",
+#   "logoUrl": "http://example.com/avatar.jpg",
 #   "gender": "male"
 # }
 

@@ -5,9 +5,6 @@ const createEmpresa = async (req, res) => {
     const { logoUrl, tradeName, rfc, email, phone, password } = req.body;
     const adminId = req.user?.id;
 
-    console.log("🔐 req.user:", req.user);
-    console.log("📥 Datos recibidos:", { logoUrl, tradeName, rfc, email, phone, password });
-
     if (!adminId) {
       return res.status(401).json({ mensaje: 'No autorizado: falta ID de administrador' });
     }

@@ -4,7 +4,7 @@ const Agente = require('../../models/agenteModel');
 // Función para registrar un nuevo agente
 const createAgente = async (req, res) => {
   try {
-    const { firstName, lastName, gender, startDate, email, phone, position, password, } = req.body;
+    const {logoUrl, firstName, lastName, gender, startDate, email, phone, position, password, } = req.body;
     const adminId = req.user?.id; // Requiere middleware de autenticación que inyecte req.user
 
     if (!adminId) {
@@ -12,6 +12,7 @@ const createAgente = async (req, res) => {
     }
 
     const nuevoAgente = new Agente({
+      logoUrl,
       firstName,
       lastName,
       gender,
